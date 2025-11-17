@@ -1,15 +1,8 @@
 package com.example.hossen_2207007_gpacalcbuilder;
 
-import com.example.hossen_2207007_gpacalcbuilder.CourseModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -49,10 +42,8 @@ public class Input_Controller {
                 return;
             }
 
-            // Parse credit
             double credit = Double.parseDouble(creditText);
 
-            // Validate credit is positive
             if (credit <= 0) {
                 showAlert("Credit must be a positive.");
                 return;
@@ -96,6 +87,14 @@ public class Input_Controller {
 
     @FXML
     public void calculateGPA(ActionEvent actionEvent) throws IOException {
+        if (courses.isEmpty()) {
+            System.out.println("No courses added yet!");
+            return;
+        }
+
+        double totalCredits = 0;
+        double weightedSum = 0;
+
         System.out.println("Total Courses Added: " + courses.size());
         System.out.println();
 
@@ -110,6 +109,28 @@ public class Input_Controller {
             System.out.println("  Teacher 2: " + course.getTeacher2());
             System.out.println("  Grade: " + course.getGrade());
             System.out.println();
+
+            totalCredits += course.getCredit();
+            weightedSum += course.getCredit() * gradeToPoint(course.getGrade());
         }
+
+        double gpa = weightedSum / totalCredits;
+        System.out.println("Calculated GPA: " + String.format("%.2f", gpa));
     }
+
+    private double gradeToPoint(String g) {
+        return switch (g) {
+            case "A+" -> 4.0;
+            case "A" -> 3.75;
+            case "A-" -> 3.50;
+            case "B+" -> 3.25;
+            case "B" -> 3.00;
+            case "B-" -> 2.75;
+            case "C+" -> 2.50;
+            case "C" -> 2.25;
+            case "D" -> 2.00;
+            default -> 0.0;
+        };
+    }
+
 }
