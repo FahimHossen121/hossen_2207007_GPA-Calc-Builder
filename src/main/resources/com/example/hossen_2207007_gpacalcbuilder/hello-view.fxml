@@ -5,15 +5,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #101836;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #101836;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hossen_2207007_gpacalcbuilder.HelloController">
    <children>
       <Label layoutX="106.0" layoutY="45.0" prefHeight="106.0" prefWidth="410.0" text="Welcome to GPA Calculator" textFill="WHITE">
          <font>
             <Font size="31.0" />
          </font>
       </Label>
-      <Button layoutX="219.0" layoutY="256.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="136.0" style="-fx-background-color: #2e448f;" text="Calculate GPA" textFill="WHITE">
+      <Button layoutX="219.0" layoutY="256.0" mnemonicParsing="false" onAction="#SwitchScene" prefHeight="65.0" prefWidth="136.0" style="-fx-background-color: #2e448f;" text="Calculate GPA" textFill="WHITE">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
