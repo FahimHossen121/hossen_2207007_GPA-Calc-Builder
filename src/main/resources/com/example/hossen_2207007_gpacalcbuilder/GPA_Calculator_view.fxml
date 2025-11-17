@@ -16,8 +16,8 @@
                     <Font size="36" />
                 </font>
             </Label>
-            
-            <Button prefHeight="40" prefWidth="160" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 8;" text="Back to Home">
+
+            <Button fx:id="backBtn" onAction="#backHome" prefHeight="40" prefWidth="160" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 8;" text="Back to Home">
                 <font>
                     <Font size="18" />
                 </font>

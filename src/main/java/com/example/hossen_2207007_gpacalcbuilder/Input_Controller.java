@@ -2,8 +2,11 @@ package com.example.hossen_2207007_gpacalcbuilder;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import java.io.IOException;
+import javafx.stage.Stage;
+
 import java.util.ArrayList;
 
 public class Input_Controller {
@@ -24,10 +27,11 @@ public class Input_Controller {
         gradeBox.getItems().addAll("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "D", "F");
         calcBtn.setDisable(true);
     }
+
     @FXML
     public void addCourse() {
         try {
-            // Get input values
+            // Get input
             String cname = courseNameField.getText().trim();
             String ccode = courseCodeField.getText().trim();
             String creditText = courseCreditField.getText().trim();
@@ -35,7 +39,7 @@ public class Input_Controller {
             String t2 = teacher2Field.getText().trim();
             String grade = gradeBox.getValue();
 
-            // Validate all fields are filled
+            // Validate all fields
             if (cname.isEmpty() || ccode.isEmpty() || creditText.isEmpty() ||
                     t1.isEmpty() || t2.isEmpty() || grade == null) {
                 showAlert("Please fill all fields!");
@@ -45,27 +49,23 @@ public class Input_Controller {
             double credit = Double.parseDouble(creditText);
 
             if (credit <= 0) {
-                showAlert("Credit must be a positive.");
+                showAlert("Credit must be a positive number.");
                 return;
             }
 
-            // Add course to list
             courses.add(new CourseModel(cname, ccode, credit, t1, t2, grade));
             showAlert("Course added successfully!");
 
-            // Check if enough credits have been added
+            // Enable Calculate button if total credits >= required
             double totalCredits = courses.stream().mapToDouble(CourseModel::getCredit).sum();
             if (totalCredits >= TOTAL_REQUIRED_CREDIT) {
                 calcBtn.setDisable(false);
             }
 
-            // Clear all input fields
             clearFields();
 
-        } catch (NumberFormatException e) {
-            showAlert("Please enter a valid number for course credit!");
         } catch (Exception e) {
-            showAlert("An error occurred: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -86,36 +86,33 @@ public class Input_Controller {
     }
 
     @FXML
-    public void calculateGPA(ActionEvent actionEvent) throws IOException {
+    public void calculateGPA(ActionEvent actionEvent) {
         if (courses.isEmpty()) {
-            System.out.println("No courses added yet!");
+            showAlert("No courses added yet!");
             return;
         }
 
+        // Calculate GPA
         double totalCredits = 0;
         double weightedSum = 0;
 
-        System.out.println("Total Courses Added: " + courses.size());
-        System.out.println();
-
-        for (int i = 0; i < courses.size(); i++) {
-            CourseModel course = courses.get(i);
-
-            System.out.println("Course " + (i + 1) + ":");
-            System.out.println("  Course Name: " + course.getName());
-            System.out.println("  Course Code: " + course.getCode());
-            System.out.println("  Course Credit: " + course.getCredit());
-            System.out.println("  Teacher 1: " + course.getTeacher1());
-            System.out.println("  Teacher 2: " + course.getTeacher2());
-            System.out.println("  Grade: " + course.getGrade());
-            System.out.println();
-
+        for (CourseModel course : courses) {
             totalCredits += course.getCredit();
             weightedSum += course.getCredit() * gradeToPoint(course.getGrade());
         }
 
         double gpa = weightedSum / totalCredits;
         System.out.println("Calculated GPA: " + String.format("%.2f", gpa));
+
+        // Open GPA result screen
+        try {
+            Stage stage = (Stage) calcBtn.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("GPA_Calculator_view.fxml"));
+            Scene scene = new Scene(loader.load());
+            stage.setScene(scene);
+        } catch (Exception e) {
+            showAlert("Error opening GPA result screen: " + e.getMessage());
+        }
     }
 
     private double gradeToPoint(String g) {
@@ -132,5 +129,4 @@ public class Input_Controller {
             default -> 0.0;
         };
     }
-
 }
