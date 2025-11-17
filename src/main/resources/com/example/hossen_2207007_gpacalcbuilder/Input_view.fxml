@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="750" prefWidth="1100" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hossen_2207007_gpacalcbuilder.Input_Controller" >
+<BorderPane prefHeight="750" prefWidth="1100" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hossen_2207007_gpacalcbuilder.Input_Controller">
 
     <center>
         <VBox alignment="CENTER" maxWidth="650" spacing="20">
@@ -20,13 +20,13 @@
             <padding>
                 <Insets bottom="40" left="40" right="40" top="40" />
             </padding>
-            <Label prefHeight="51.0" prefWidth="605.0" text="Please Enter Your Required Information" style="-fx-text-fill: #000000;">
+            <Label prefHeight="51.0" prefWidth="605.0" style="-fx-text-fill: #000000;" text="Please Enter Your Required Information">
                 <font>
                     <Font size="24.0" />
                 </font>
             </Label>
 
-            <Label prefHeight="40.0" prefWidth="163.0" text="Add Courses" textAlignment="CENTER" style="-fx-text-fill: #000000;">
+            <Label prefHeight="40.0" prefWidth="163.0" style="-fx-text-fill: #000000;" text="Add Courses" textAlignment="CENTER">
                 <font>
                     <Font size="18.0" />
                 </font>
@@ -38,41 +38,41 @@
                     <ColumnConstraints halignment="LEFT" minWidth="250" />
                 </columnConstraints>
 
-                <Label text="Course Name" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-text-fill: #000000;">
+                <Label style="-fx-text-fill: #000000;" text="Course Name" GridPane.columnIndex="0" GridPane.rowIndex="0">
                     <font>
                         <Font size="14.0" />
                     </font></Label>
-                <TextField fx:id="courseNameField" GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-width: 1; -fx-border-radius: 2;" />
+                <TextField fx:id="courseNameField" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-width: 1; -fx-border-radius: 2;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                <Label text="Course Code" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-text-fill: #000000;">
+                <Label style="-fx-text-fill: #000000;" text="Course Code" GridPane.columnIndex="0" GridPane.rowIndex="1">
                     <font>
                         <Font size="14.0" />
                     </font></Label>
-                <TextField fx:id="courseCodeField" GridPane.columnIndex="1" GridPane.rowIndex="1" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-width: 1; -fx-border-radius: 2;" />
+                <TextField fx:id="courseCodeField" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-width: 1; -fx-border-radius: 2;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                <Label text="Course Credit" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-text-fill: #000000;">
+                <Label style="-fx-text-fill: #000000;" text="Course Credit" GridPane.columnIndex="0" GridPane.rowIndex="2">
                     <font>
                         <Font size="14.0" />
                     </font></Label>
-                <TextField fx:id="courseCreditField" GridPane.columnIndex="1" GridPane.rowIndex="2" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-width: 1; -fx-border-radius: 2;" />
+                <TextField fx:id="courseCreditField" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-width: 1; -fx-border-radius: 2;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                <Label text="Teacher 1" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-text-fill: #000000;">
+                <Label style="-fx-text-fill: #000000;" text="Teacher 1" GridPane.columnIndex="0" GridPane.rowIndex="3">
                     <font>
                         <Font size="14.0" />
                     </font></Label>
-                <TextField fx:id="teacher1Field" GridPane.columnIndex="1" GridPane.rowIndex="3" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-width: 1; -fx-border-radius: 2;" />
+                <TextField fx:id="teacher1Field" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-width: 1; -fx-border-radius: 2;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                <Label text="Teacher 2" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-text-fill: #000000;">
+                <Label style="-fx-text-fill: #000000;" text="Teacher 2" GridPane.columnIndex="0" GridPane.rowIndex="4">
                     <font>
                         <Font size="14.0" />
                     </font></Label>
-                <TextField fx:id="teacher2Field" GridPane.columnIndex="1" GridPane.rowIndex="4" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-width: 1; -fx-border-radius: 2;" />
+                <TextField fx:id="teacher2Field" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-width: 1; -fx-border-radius: 2;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                <Label text="Grade" GridPane.columnIndex="0" GridPane.rowIndex="5" style="-fx-text-fill: #000000;">
+                <Label style="-fx-text-fill: #000000;" text="Grade" GridPane.columnIndex="0" GridPane.rowIndex="5">
                     <font>
                         <Font size="14.0" />
                     </font></Label>
-                <ComboBox fx:id="gradeBox" prefHeight="26.0" prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="5" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-width: 1; -fx-border-radius: 2;" />
+                <ComboBox fx:id="gradeBox" prefHeight="26.0" prefWidth="249.0" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-width: 1; -fx-border-radius: 2;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                 <rowConstraints>
                     <RowConstraints />
                     <RowConstraints />
@@ -83,13 +83,13 @@
                 </rowConstraints>
             </GridPane>
 
-            <Button prefHeight="36" prefWidth="150.0" style="-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 2; -fx-background-radius: 2; -fx-cursor: hand;" text="Add Course">
+            <Button fx:id="courses" onAction="#addCourse" prefHeight="36" prefWidth="150.0" style="-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 2; -fx-background-radius: 2; -fx-cursor: hand;" text="Add Course">
                 <font>
                     <Font size="14" />
                 </font>
             </Button>
 
-            <Button fx:id="calcBtn" prefHeight="36" prefWidth="150.0" style="-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 2; -fx-background-radius: 2; -fx-cursor: hand;" text="Calculate GPA">
+            <Button fx:id="calcBtn" onAction="#calculateGPA" prefHeight="36" prefWidth="150.0" style="-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 2; -fx-background-radius: 2; -fx-cursor: hand;" text="Calculate GPA">
                 <font>
                     <Font size="14" />
                 </font>
