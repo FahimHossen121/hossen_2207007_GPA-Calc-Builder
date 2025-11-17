@@ -31,7 +31,6 @@ public class Input_Controller {
     @FXML
     public void addCourse() {
         try {
-            // Get input
             String cname = courseNameField.getText().trim();
             String ccode = courseCodeField.getText().trim();
             String creditText = courseCreditField.getText().trim();
@@ -39,7 +38,6 @@ public class Input_Controller {
             String t2 = teacher2Field.getText().trim();
             String grade = gradeBox.getValue();
 
-            // Validate all fields
             if (cname.isEmpty() || ccode.isEmpty() || creditText.isEmpty() ||
                     t1.isEmpty() || t2.isEmpty() || grade == null) {
                 showAlert("Please fill all fields!");
@@ -47,7 +45,6 @@ public class Input_Controller {
             }
 
             double credit = Double.parseDouble(creditText);
-
             if (credit <= 0) {
                 showAlert("Credit must be a positive number.");
                 return;
@@ -64,8 +61,10 @@ public class Input_Controller {
 
             clearFields();
 
+        } catch (NumberFormatException e) {
+            showAlert("Please enter a valid number for course credit!");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            showAlert("An error occurred: " + e.getMessage());
         }
     }
 
@@ -91,42 +90,14 @@ public class Input_Controller {
             showAlert("No courses added yet!");
             return;
         }
-
-        // Calculate GPA
-        double totalCredits = 0;
-        double weightedSum = 0;
-
-        for (CourseModel course : courses) {
-            totalCredits += course.getCredit();
-            weightedSum += course.getCredit() * gradeToPoint(course.getGrade());
-        }
-
-        double gpa = weightedSum / totalCredits;
-        System.out.println("Calculated GPA: " + String.format("%.2f", gpa));
-
-        // Open GPA result screen
         try {
             Stage stage = (Stage) calcBtn.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("GPA_Calculator_view.fxml"));
             Scene scene = new Scene(loader.load());
             stage.setScene(scene);
+            stage.setMaximized(true);
         } catch (Exception e) {
             showAlert("Error opening GPA result screen: " + e.getMessage());
         }
-    }
-
-    private double gradeToPoint(String g) {
-        return switch (g) {
-            case "A+" -> 4.0;
-            case "A" -> 3.75;
-            case "A-" -> 3.50;
-            case "B+" -> 3.25;
-            case "B" -> 3.00;
-            case "B-" -> 2.75;
-            case "C+" -> 2.50;
-            case "C" -> 2.25;
-            case "D" -> 2.00;
-            default -> 0.0;
-        };
     }
 }

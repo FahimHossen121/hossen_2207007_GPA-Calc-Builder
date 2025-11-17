@@ -21,6 +21,6 @@ public class HelloController {
         Scene Scene = new Scene(root);
         stage.setScene(Scene);
         stage.setMaximized(true);
-        stage.setTitle("Preview");
+        stage.setTitle("Input Form");
     }
 }

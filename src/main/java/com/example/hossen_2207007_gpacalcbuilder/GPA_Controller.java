@@ -1,9 +1,14 @@
 package com.example.hossen_2207007_gpacalcbuilder;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -14,41 +19,70 @@ public class GPA_Controller {
     private Label resultLabel;
 
     @FXML
+    private TableView<CourseModel> resultTable;
+
+    @FXML
+    private TableColumn<CourseModel, String> courseNameCol;
+
+    @FXML
+    private TableColumn<CourseModel, String> courseCodeCol;
+
+    @FXML
+    private TableColumn<CourseModel, Double> courseCreditCol;
+
+    @FXML
+    private TableColumn<CourseModel, String> gradeCol;
+
+    @FXML
+    private TableColumn<CourseModel, String> teacher1Col;
+
+    @FXML
+    private TableColumn<CourseModel, String> teacher2Col;
+
+    @FXML
     public void initialize() {
-        // Calculate GPA when this view is loaded
-        if (Input_Controller.courses.isEmpty()) {
+        // Set up TableView columns
+        courseNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        courseCodeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
+        courseCreditCol.setCellValueFactory(new PropertyValueFactory<>("credit"));
+        gradeCol.setCellValueFactory(new PropertyValueFactory<>("grade"));
+        teacher1Col.setCellValueFactory(new PropertyValueFactory<>("teacher1"));
+        teacher2Col.setCellValueFactory(new PropertyValueFactory<>("teacher2"));
+
+        // Populate TableView
+        ObservableList<CourseModel> courseList = FXCollections.observableArrayList(Input_Controller.courses);
+        resultTable.setItems(courseList);
+
+        // Calculate GPA
+        if (!Input_Controller.courses.isEmpty()) {
+            double totalCredits = 0;
+            double weightedSum = 0;
+
+            for (CourseModel course : Input_Controller.courses) {
+                totalCredits += course.getCredit();
+                weightedSum += course.getCredit() * gradeToPoint(course.getGrade());
+            }
+
+            double gpa = weightedSum / totalCredits;
+            resultLabel.setText("Your GPA: " + String.format("%.2f", gpa));
+            System.out.println("Calculated GPA: " + String.format("%.2f", gpa));
+        } else {
             resultLabel.setText("No courses added!");
-            return;
         }
-
-        double totalCredits = 0;
-        double weightedSum = 0;
-
-        for (CourseModel course : Input_Controller.courses) {
-            totalCredits += course.getCredit();
-            weightedSum += course.getCredit() * gradeToPoint(course.getGrade());
-        }
-
-        double gpa = weightedSum / totalCredits;
-        resultLabel.setText("Your GPA: " + String.format("%.2f", gpa));
-
     }
 
     @FXML
     public void backHome() {
         try {
-            // Clear courses if needed
-            // Input_Controller.courses.clear();
 
             Stage stage = (Stage) resultLabel.getScene().getWindow();
-            Scene scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Input_View.fxml"))));
+            Scene scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml"))));
             stage.setScene(scene);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    // Helper method to convert grade to points
     private double gradeToPoint(String g) {
         return switch (g) {
             case "A+" -> 4.0;
@@ -60,7 +94,7 @@ public class GPA_Controller {
             case "C+" -> 2.50;
             case "C" -> 2.25;
             case "D" -> 2.00;
-            default -> 0.0; // F or invalid
+            default -> 0.0;
         };
     }
 }

@@ -83,7 +83,7 @@
                 </rowConstraints>
             </GridPane>
 
-            <Button fx:id="courses" onAction="#addCourse" prefHeight="36" prefWidth="150.0" style="-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 2; -fx-background-radius: 2; -fx-cursor: hand;" text="Add Course">
+            <Button onAction="#addCourse" prefHeight="36" prefWidth="150.0" style="-fx-background-color: #000000; -fx-text-fill: white; -fx-border-radius: 2; -fx-background-radius: 2; -fx-cursor: hand;" text="Add Course">
                 <font>
                     <Font size="14" />
                 </font>
