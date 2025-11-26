@@ -10,6 +10,7 @@ module com.example.hossen_2207007_gpacalcbuilder {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.sql;
 
     opens com.example.hossen_2207007_gpacalcbuilder to javafx.fxml;
     exports com.example.hossen_2207007_gpacalcbuilder;
