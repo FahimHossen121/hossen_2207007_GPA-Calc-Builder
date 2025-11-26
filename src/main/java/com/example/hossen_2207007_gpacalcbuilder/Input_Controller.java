@@ -50,10 +50,12 @@ public class Input_Controller {
                 return;
             }
 
-            courses.add(new CourseModel(cname, ccode, credit, t1, t2, grade));
+            CourseModel newCourse = new CourseModel(cname, ccode, credit, t1, t2, grade);
+            courses.add(newCourse);
+            Database.insertCourse(newCourse);
+
             showAlert("Course added successfully!");
 
-            // Enable Calculate button if total credits >= required
             double totalCredits = courses.stream().mapToDouble(CourseModel::getCredit).sum();
             if (totalCredits >= TOTAL_REQUIRED_CREDIT) {
                 calcBtn.setDisable(false);
