@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -10,9 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="750" prefWidth="1100" style="-fx-background-color: #fdfdfd;"
-            xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.hossen_2207007_gpacalcbuilder.GPA_Controller">
+<BorderPane prefHeight="750" prefWidth="1100" style="-fx-background-color: #fdfdfd;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hossen_2207007_gpacalcbuilder.GPA_Controller">
 
     <center>
         <VBox alignment="TOP_CENTER" spacing="30" style="-fx-padding: 40;">
@@ -22,46 +19,38 @@
                 </font>
             </Label>
 
-            <TableView fx:id="resultTable" prefWidth="1000" prefHeight="400">
+            <TableView fx:id="resultTable" prefHeight="400" prefWidth="1000">
                 <columns>
-                    <TableColumn fx:id="courseNameCol" text="Course Name" prefWidth="180"/>
-                    <TableColumn fx:id="courseCodeCol" text="Course Code" prefWidth="120"/>
-                    <TableColumn fx:id="courseCreditCol" text="Credit"/>
-                    <TableColumn fx:id="gradeCol" text="Grade"/>
-                    <TableColumn fx:id="teacher1Col" text="Teacher 1" prefWidth="180"/>
-                    <TableColumn fx:id="teacher2Col" text="Teacher 2" prefWidth="180"/>
+                    <TableColumn fx:id="courseNameCol" prefWidth="180" text="Course Name" />
+                    <TableColumn fx:id="courseCodeCol" prefWidth="120" text="Course Code" />
+                    <TableColumn fx:id="courseCreditCol" text="Credit" />
+                    <TableColumn fx:id="gradeCol" text="Grade" />
+                    <TableColumn fx:id="teacher1Col" prefWidth="180" text="Teacher 1" />
+                    <TableColumn fx:id="teacher2Col" prefWidth="180" text="Teacher 2" />
                 </columns>
             </TableView>
 
             <HBox alignment="CENTER" spacing="20">
-                <Button fx:id="addBtn"  prefHeight="40" prefWidth="160"
-                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 8;"
-                        text="Add New Course">
+                <Button fx:id="addBtn" prefHeight="40" prefWidth="160" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 8;" text="Add New Course">
                     <font>
                         <Font size="16" />
                     </font>
                 </Button>
 
-                <Button fx:id="editBtn"  prefHeight="40" prefWidth="160"
-                        style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 8;"
-                        text="Edit Selected">
+                <Button fx:id="editBtn" prefHeight="40" prefWidth="160" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 8;" text="Edit Selected">
                     <font>
                         <Font size="16" />
                     </font>
                 </Button>
 
-                <Button fx:id="deleteBtn"  prefHeight="40" prefWidth="160"
-                        style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-background-radius: 8;"
-                        text="Delete Selected">
+                <Button fx:id="deleteBtn" onAction="#deleteSelectedCourse" prefHeight="40" prefWidth="160" style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-background-radius: 8;" text="Delete Selected">
                     <font>
                         <Font size="16" />
                     </font>
                 </Button>
             </HBox>
 
-            <Button fx:id="backBtn" onAction="#backHome" prefHeight="40" prefWidth="160"
-                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 8;"
-                    text="Back to Home">
+            <Button fx:id="backBtn" onAction="#backHome" prefHeight="40" prefWidth="160" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 8;" text="Back to Home">
                 <font>
                     <Font size="18" />
                 </font>

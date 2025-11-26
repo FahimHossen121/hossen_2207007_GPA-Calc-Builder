@@ -12,7 +12,6 @@ public class Database {
 
     private static final String DB_URL = "jdbc:sqlite:gpa_calculator.db";
 
-    // Initialize database and table
     public static void initialize() {
         try (Connection conn = DriverManager.getConnection(DB_URL)) {
             if (conn != null) {
@@ -34,19 +33,16 @@ public class Database {
         }
     }
 
-    // Get connection
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL);
     }
 
-    // Insert a single course into the database
     public static void insertCourse(CourseModel course) {
         String sql = "INSERT INTO courses(name, code, credit, grade, teacher1, teacher2) VALUES(?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            // Set values for each placeholder
             pstmt.setString(1, course.getName());
             pstmt.setString(2, course.getCode());
             pstmt.setDouble(3, course.getCredit());
@@ -54,7 +50,6 @@ public class Database {
             pstmt.setString(5, course.getTeacher1());
             pstmt.setString(6, course.getTeacher2());
 
-            // Execute the insert
             pstmt.executeUpdate();
             System.out.println("Course inserted: " + course.getName());
 
@@ -63,14 +58,12 @@ public class Database {
         }
     }
 
-    // Delete all courses from the database
     public static void clearAllCourses() {
         String sql = "DELETE FROM courses";
 
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
 
-            // Execute the delete command
             stmt.executeUpdate(sql);
             System.out.println("All courses cleared from database.");
 
@@ -79,7 +72,6 @@ public class Database {
         }
     }
 
-    // Fetch all courses from the database
     public static ArrayList<CourseModel> getAllCourses() {
         ArrayList<CourseModel> courseList = new ArrayList<>();
         String sql = "SELECT * FROM courses";
@@ -88,9 +80,7 @@ public class Database {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
-            // Loop through each row in the result
             while (rs.next()) {
-                // Extract data from each column
                 String name = rs.getString("name");
                 String code = rs.getString("code");
                 double credit = rs.getDouble("credit");
@@ -98,7 +88,6 @@ public class Database {
                 String teacher1 = rs.getString("teacher1");
                 String teacher2 = rs.getString("teacher2");
 
-                // Create CourseModel object and add to list
                 CourseModel course = new CourseModel(name, code, credit, teacher1, teacher2, grade);
                 courseList.add(course);
             }
@@ -110,5 +99,25 @@ public class Database {
         }
 
         return courseList;
+    }
+
+    public static void deleteCourse(String code) {
+        String sql = "DELETE FROM courses WHERE code = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, code);
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Course deleted: " + code);
+            } else {
+                System.out.println("No course found with code: " + code);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error deleting course: " + e.getMessage());
+        }
     }
 }

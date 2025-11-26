@@ -5,6 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -66,6 +68,60 @@ public class GPA_Controller {
             double gpa = weightedSum / totalCredits;
             resultLabel.setText("Your GPA: " + String.format("%.2f", gpa));
             System.out.println("Calculated GPA: " + String.format("%.2f", gpa));
+        } else {
+            resultLabel.setText("No courses added!");
+        }
+    }
+
+    @FXML
+    public void deleteSelectedCourse() {
+        CourseModel selectedCourse = resultTable.getSelectionModel().getSelectedItem();
+
+        if (selectedCourse == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a course to delete!");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirm Delete");
+        confirmAlert.setHeaderText(null);
+        confirmAlert.setContentText("Are you sure you want to delete: " + selectedCourse.getName() + "?");
+
+        if (confirmAlert.showAndWait().get() == ButtonType.OK) {
+            Database.deleteCourse(selectedCourse.getCode());
+
+            Input_Controller.courses.remove(selectedCourse);
+
+            refreshTable();
+
+            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+            successAlert.setTitle("Success");
+            successAlert.setHeaderText(null);
+            successAlert.setContentText("Course deleted successfully!");
+            successAlert.showAndWait();
+        }
+    }
+
+    private void refreshTable() {
+        ArrayList<CourseModel> coursesFromDB = Database.getAllCourses();
+        ObservableList<CourseModel> courseList = FXCollections.observableArrayList(coursesFromDB);
+        resultTable.setItems(courseList);
+
+        if (!coursesFromDB.isEmpty()) {
+            double totalCredits = 0;
+            double weightedSum = 0;
+
+            for (CourseModel course : coursesFromDB) {
+                totalCredits += course.getCredit();
+                weightedSum += course.getCredit() * gradeToPoint(course.getGrade());
+            }
+
+            double gpa = weightedSum / totalCredits;
+            resultLabel.setText("Your GPA: " + String.format("%.2f", gpa));
         } else {
             resultLabel.setText("No courses added!");
         }
