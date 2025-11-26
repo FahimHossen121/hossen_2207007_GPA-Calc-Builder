@@ -11,6 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class GPA_Controller {
@@ -41,7 +42,6 @@ public class GPA_Controller {
 
     @FXML
     public void initialize() {
-        // Set up TableView columns
         courseNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         courseCodeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
         courseCreditCol.setCellValueFactory(new PropertyValueFactory<>("credit"));
@@ -49,16 +49,16 @@ public class GPA_Controller {
         teacher1Col.setCellValueFactory(new PropertyValueFactory<>("teacher1"));
         teacher2Col.setCellValueFactory(new PropertyValueFactory<>("teacher2"));
 
-        // Populate TableView
-        ObservableList<CourseModel> courseList = FXCollections.observableArrayList(Input_Controller.courses);
+        ArrayList<CourseModel> coursesFromDB = Database.getAllCourses();
+
+        ObservableList<CourseModel> courseList = FXCollections.observableArrayList(coursesFromDB);
         resultTable.setItems(courseList);
 
-        // Calculate GPA
-        if (!Input_Controller.courses.isEmpty()) {
+        if (!coursesFromDB.isEmpty()) {
             double totalCredits = 0;
             double weightedSum = 0;
 
-            for (CourseModel course : Input_Controller.courses) {
+            for (CourseModel course : coursesFromDB) {
                 totalCredits += course.getCredit();
                 weightedSum += course.getCredit() * gradeToPoint(course.getGrade());
             }
@@ -74,7 +74,6 @@ public class GPA_Controller {
     @FXML
     public void backHome() {
         try {
-
             Stage stage = (Stage) resultLabel.getScene().getWindow();
             Scene scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml"))));
             stage.setScene(scene);
