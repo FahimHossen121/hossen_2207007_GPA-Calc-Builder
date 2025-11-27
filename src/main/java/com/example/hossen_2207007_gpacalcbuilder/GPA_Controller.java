@@ -137,6 +137,22 @@ public class GPA_Controller {
             System.out.println(e.getMessage());
         }
     }
+    @FXML
+    public void addNewCourse() {
+        try {
+            Stage stage = (Stage) resultLabel.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Input_view.fxml"));
+            Scene scene = new Scene(loader.load());
+            stage.setScene(scene);
+            stage.setMaximized(true);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Error opening input form: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
 
     private double gradeToPoint(String g) {
         return switch (g) {

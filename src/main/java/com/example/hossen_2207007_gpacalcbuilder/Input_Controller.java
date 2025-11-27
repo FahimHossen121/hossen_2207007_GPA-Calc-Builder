@@ -56,6 +56,7 @@ public class Input_Controller {
 
             showAlert("Course added successfully!");
 
+
             double totalCredits = courses.stream().mapToDouble(CourseModel::getCredit).sum();
             if (totalCredits >= TOTAL_REQUIRED_CREDIT) {
                 calcBtn.setDisable(false);
