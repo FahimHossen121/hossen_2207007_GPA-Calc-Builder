@@ -4,13 +4,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -74,6 +80,23 @@ public class GPA_Controller {
     }
 
     @FXML
+    public void addNewCourse() {
+        try {
+            Stage stage = (Stage) resultLabel.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Input_view.fxml"));
+            Scene scene = new Scene(loader.load());
+            stage.setScene(scene);
+            stage.setMaximized(true);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Error opening input form: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
     public void deleteSelectedCourse() {
         CourseModel selectedCourse = resultTable.getSelectionModel().getSelectedItem();
 
@@ -106,6 +129,108 @@ public class GPA_Controller {
         }
     }
 
+    @FXML
+    public void editSelectedCourse() {
+        CourseModel selectedCourse = resultTable.getSelectionModel().getSelectedItem();
+
+        if (selectedCourse == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a course to edit!");
+            alert.showAndWait();
+            return;
+        }
+
+        showEditDialog(selectedCourse);
+    }
+
+    private void showEditDialog(CourseModel course) {
+        Dialog<CourseModel> dialog = new Dialog<>();
+        dialog.setTitle("Edit Course");
+        dialog.setHeaderText("Edit course details");
+
+        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField nameField = new TextField(course.getName());
+        TextField codeField = new TextField(course.getCode());
+        TextField creditField = new TextField(String.valueOf(course.getCredit()));
+        TextField teacher1Field = new TextField(course.getTeacher1());
+        TextField teacher2Field = new TextField(course.getTeacher2());
+        ComboBox<String> gradeBox = new ComboBox<>();
+        gradeBox.getItems().addAll("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "D", "F");
+        gradeBox.setValue(course.getGrade());
+
+        grid.add(new Label("Course Name:"), 0, 0);
+        grid.add(nameField, 1, 0);
+        grid.add(new Label("Course Code:"), 0, 1);
+        grid.add(codeField, 1, 1);
+        grid.add(new Label("Credit:"), 0, 2);
+        grid.add(creditField, 1, 2);
+        grid.add(new Label("Grade:"), 0, 3);
+        grid.add(gradeBox, 1, 3);
+        grid.add(new Label("Teacher 1:"), 0, 4);
+        grid.add(teacher1Field, 1, 4);
+        grid.add(new Label("Teacher 2:"), 0, 5);
+        grid.add(teacher2Field, 1, 5);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == saveButtonType) {
+                try {
+                    String name = nameField.getText().trim();
+                    String code = codeField.getText().trim();
+                    double credit = Double.parseDouble(creditField.getText().trim());
+                    String grade = gradeBox.getValue();
+                    String teacher1 = teacher1Field.getText().trim();
+                    String teacher2 = teacher2Field.getText().trim();
+
+                    if (name.isEmpty() || code.isEmpty() || grade == null || teacher1.isEmpty() || teacher2.isEmpty()) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setContentText("All fields are required!");
+                        alert.showAndWait();
+                        return null;
+                    }
+
+                    return new CourseModel(name, code, credit, teacher1, teacher2, grade);
+                } catch (NumberFormatException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Invalid credit value!");
+                    alert.showAndWait();
+                    return null;
+                }
+            }
+            return null;
+        });
+
+        dialog.showAndWait().ifPresent(updatedCourse -> {
+            String oldCode = course.getCode();
+            Database.updateCourse(oldCode, updatedCourse);
+
+            for (int i = 0; i < Input_Controller.courses.size(); i++) {
+                if (Input_Controller.courses.get(i).getCode().equals(oldCode)) {
+                    Input_Controller.courses.set(i, updatedCourse);
+                    break;
+                }
+            }
+
+            refreshTable();
+
+            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+            successAlert.setTitle("Success");
+            successAlert.setHeaderText(null);
+            successAlert.setContentText("Course updated successfully!");
+            successAlert.showAndWait();
+        });
+    }
+
     private void refreshTable() {
         ArrayList<CourseModel> coursesFromDB = Database.getAllCourses();
         ObservableList<CourseModel> courseList = FXCollections.observableArrayList(coursesFromDB);
@@ -135,22 +260,6 @@ public class GPA_Controller {
             stage.setScene(scene);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-    }
-    @FXML
-    public void addNewCourse() {
-        try {
-            Stage stage = (Stage) resultLabel.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Input_view.fxml"));
-            Scene scene = new Scene(loader.load());
-            stage.setScene(scene);
-            stage.setMaximized(true);
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Error opening input form: " + e.getMessage());
-            alert.showAndWait();
         }
     }
 

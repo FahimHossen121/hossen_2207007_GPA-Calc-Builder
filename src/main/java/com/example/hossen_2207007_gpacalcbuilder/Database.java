@@ -71,6 +71,32 @@ public class Database {
             System.out.println("Error clearing courses: " + e.getMessage());
         }
     }
+    public static void updateCourse(String oldCode, CourseModel updatedCourse) {
+        String sql = "UPDATE courses SET name = ?, code = ?, credit = ?, grade = ?, teacher1 = ?, teacher2 = ? WHERE code = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, updatedCourse.getName());
+            pstmt.setString(2, updatedCourse.getCode());
+            pstmt.setDouble(3, updatedCourse.getCredit());
+            pstmt.setString(4, updatedCourse.getGrade());
+            pstmt.setString(5, updatedCourse.getTeacher1());
+            pstmt.setString(6, updatedCourse.getTeacher2());
+            pstmt.setString(7, oldCode);
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Course updated: " + oldCode);
+            } else {
+                System.out.println("No course found with code: " + oldCode);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error updating course: " + e.getMessage());
+        }
+    }
 
     public static ArrayList<CourseModel> getAllCourses() {
         ArrayList<CourseModel> courseList = new ArrayList<>();

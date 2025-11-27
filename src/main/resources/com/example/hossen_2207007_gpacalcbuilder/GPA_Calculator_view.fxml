@@ -37,7 +37,7 @@
                     </font>
                 </Button>
 
-                <Button fx:id="editBtn" prefHeight="40" prefWidth="160" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 8;" text="Edit Selected">
+                <Button fx:id="editBtn" onAction="#editSelectedCourse" prefHeight="40" prefWidth="160" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 8;" text="Edit Selected">
                     <font>
                         <Font size="16" />
                     </font>
